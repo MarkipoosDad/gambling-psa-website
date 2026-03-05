@@ -1,24 +1,135 @@
+html, body {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0px;
+}
+
 body {
+    margin: 0;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 5vw 95vw;
     background-color: rgb(244, 103, 103);
 }
 
-nav {
+/* Main Content */
+.main-content {
+    grid-column: 2 / -1;
+    padding: 8vh 0 0 0;
+    overflow-y: auto;
+    transition: margin-left 0.5s ease;
+}
+
+.side-nav:hover ~ .main-content {
+    margin-left: 30vw;
+}
+
+/* Top Nav */
+
+.top-nav {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    grid-template-rows: 8vh;
+
     position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 10;
-    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8vh;
+    z-index: 100;
     align-items: center;
     justify-content: space-between;
-    padding: 1.25rem 4rem;
     background-color: rgb(67, 27, 27);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
+    box-sizing: border-box;
 }
 
-p {
-    color: red;
+.top-nav #top-nav-logo {
+    grid-column: 1;
+    margin: 0;
+    display: flex;
+    font-size: 2em;
+    border-left: none;
 }
 
+.top-nav a {
+    color: white;
+    font-size: 2em;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amatic SC', cursive;
+    border-left: 1px dashed white;
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    margin: 0;
+}
+.top-nav a:nth-child(1) {
+    grid-column: 1;
+}
+.top-nav a:nth-child(1) {
+    grid-column: 1;
+}
+.top-nav a:nth-child(1) {
+    grid-column: 1;
+}
+.top-nav a:nth-child(1) {
+    grid-column: 1;
+}
+
+/* Side Nav */
+
+.side-nav {
+    grid-template-columns: 100%;
+    grid-template-rows: auto 1fr;
+    display: grid;
+
+    position: fixed;
+    top: 8vh;
+    left: 0;
+    width: 5vw;
+    height: calc(100vh - 8vh);
+    z-index: 50;
+    background-color: #111;
+    overflow: hidden;
+    transition: width 0.5s ease;
+}
+
+.side-nav:hover {
+  width: 35vw;
+}
+
+.side-nav #side-nav-title {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.3em;
+    font-family: 'Amatic SC', cursive;
+    color: white;
+}
+
+.side-nav #side-nav-body {
+    max-width: 0;
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    display: block;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    color: white;
+    font-family: 'Amatic SC', cursive;
+    overflow: hidden;
+    transition: max-width 0.5s ease;
+}
+
+.side-nav:hover #side-nav-body{
+    max-width: 100%;
+}
 /* Spinning Background */
 .spinning-background-element-container {
     position: relative;
@@ -58,4 +169,8 @@ p {
     80% { transform: rotate(360deg);}
     90% { transform: rotate(360deg);}
     100% { transform: rotate(0deg);}
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }
