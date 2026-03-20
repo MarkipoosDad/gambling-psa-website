@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Feedback</title>
+		<link rel="icon" type="image/x-icon" href="images/kyle-mascot.ico" />
+		<link href="css/kyle-gambling-font-faces.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/web_main.css" />
+		<link rel="stylesheet" href="css/web_feedback.css" />
+		<script type="module">
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+			import {
+				getFirestore,
+				collection,
+				addDoc,
+				getDocs,
+				serverTimestamp,
+				query,
+				orderBy,
+			} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+			const firebaseConfig = {
+				apiKey: "AIzaSyC78uyJnjTXbOe3AKFpn9EcNWhwqlUYLls",
+				authDomain: "empow-feedback.firebaseapp.com",
+				projectId: "empow-feedback",
+				storageBucket: "empow-feedback.firebasestorage.app",
+				messagingSenderId: "391490126595",
+				appId: "1:391490126595:web:9e478ef69bcd6dd1f05f36",
+			};
+
+			const app = initializeApp(firebaseConfig);
+			const db = getFirestore(app);
+
+			let currentRating = 0;
+
+			function rate(stars) {
+				currentRating = stars;
+				const allStars = document.querySelectorAll(".rating span");
+				allStars.forEach((star, index) => {
+					if (index < stars) {
+						star.style.color = "rgb(67, 27, 27)";
+					} else {
+						star.style.color = "rgb(200, 200, 200)";
+					}
+				});
+				document.getElementById("ratingResult").innerText =
+					"You rated: " + stars + " stars";
+			}
+
+			async function addComment() {
+				const input = document.getElementById("commentInput");
+				const text = input.value.trim();
+				if (text === "") return;
+
+				await addDoc(collection(db, "comments"), {
+					text: text,
+					rating: currentRating,
+					timestamp: serverTimestamp(),
+				});
+
+				input.value = "";
+				currentRating = 0;
+				const allStars = document.querySelectorAll(".rating span");
+				allStars.forEach((star) => (star.style.color = "rgb(200, 200, 200)"));
+				document.getElementById("ratingResult").innerText = "";
+				displayComments();
+			}
+
+			async function displayComments() {
+				const list = document.getElementById("commentsList");
+				list.innerHTML = "";
+
+				const q = query(
+					collection(db, "comments"),
+					orderBy("timestamp", "desc"),
+				);
+				const snapshot = await getDocs(q);
+
+				snapshot.docs.forEach((doc) => {
+					const c = doc.data();
+					const div = document.createElement("div");
+					div.classList.add("comment");
+					let stars = "★".repeat(c.rating) + "☆".repeat(5 - c.rating);
+					div.innerHTML = `<strong>Anonymous</strong><br>
+		                 <span style='color: rgb(67,27,27); font-size:1.2rem'>${stars}</span><br>
+		                 ${c.text}<br>
+		                 <small>${c.timestamp?.toDate?.()?.toLocaleString() || ""}</small>`;
+					list.appendChild(div);
+				});
+			}
+
+			window.rate = rate;
+			window.addComment = addComment;
+
+			displayComments();
+		</script>
+	</head>
+
+	<body>
+		<div class="top-nav">
+			<a id="top-nav-logo"
+				><span style="color: red; font-weight: 200rem">K</span>YLE'S GAMBLING
+				WEBSITE</a
+			>
+			<a href="index.html">HOME</a>
+			<a href="about.html">ABOUT US</a>
+			<a href="feedback.html">FEEDBACK</a>
+		</div>
+		<div class="main-content">
+			<div class="rating">
+				<span onclick="rate(5)">★</span>
+				<span onclick="rate(4)">★</span>
+				<span onclick="rate(3)">★</span>
+				<span onclick="rate(2)">★</span>
+				<span onclick="rate(1)">★</span>
+			</div>
+			<p id="ratingResult"></p>
+			<textarea id="commentInput" placeholder="Write a comment..."></textarea>
+			<button onclick="addComment()">Post</button>
+			<div id="commentsList"></div>
+		</div>
+	</body>
+</html>

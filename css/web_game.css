@@ -1,0 +1,75 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Lilita One", cursive;
+	background-color: rgb(255, 209, 209);
+	overflow-x: hidden;
+}
+
+.main-content {
+	padding-top: 10vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+
+.game-container {
+	position: relative;
+	width: 700px;
+	max-width: 90%;
+	margin: auto;
+}
+
+.game-image {
+	width: 100%;
+	display: block;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.game-btn {
+	position: absolute;
+	padding: 10px 20px;
+	background-color: rgba(67, 27, 27, 0.95);
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-family: "Lilita One", cursive;
+	font-size: 1.1rem;
+	cursor: pointer;
+	transition: all 0.25s ease;
+	text-align: center;
+}
+
+.btn1 {
+	top: 70%;
+	left: 83%;
+	transform: translate(-50%, -50%);
+}
+
+.btn2 {
+	top: 33%;
+	left: 75%;
+	transform: translate(-50%, -50%);
+}
+
+.btn3 {
+	top: 35%;
+	left: 33%;
+	transform: translate(-50%, -50%);
+}
+
+.game-text {
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 2rem;
+	color: white;
+	font-family: "Lilita One", cursive;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+	text-align: center;
+}
